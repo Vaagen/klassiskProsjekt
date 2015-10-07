@@ -4,7 +4,7 @@ Klassisk Mekanikk prosjekt høst 2015
 
 GIT COMMANDS
 
-git clone https://github.com/Vaagen/kvanteH15.git
+git clone https://github.com/Vaagen/klassiskProsjekt.git
 Kloner mappen fra github
 
 git add <filnavn> 
