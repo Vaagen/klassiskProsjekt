@@ -8,11 +8,11 @@ from math import *    #this command gives you acces to math functions, such as s
         
 k=1    # spring constant
 m=1.0    # particle mass 
-dt=0.002  # integration timestep
+dt=0.02  # integration timestep
 
 # create files to save simulation data in:
-f = open('xyposition.txt','w') # notice: the write option 'w' erases previous data in the file 
-f2 = open('energy.txt','w')
+f = open('binarypos.txt','w') # notice: the write option 'w' erases previous data in the file
+f2 = open('binaryenergy.txt','w')
 
 
 
@@ -21,7 +21,7 @@ y=0             #initial position in y-direction
 vx=0            #initial velocity in x-direction
 vy=1            #initial velocity in y-direction
 time=0.0          #this is the start time
-endtime=3000*dt        #total simulation time
+endtime=350*dt        #total simulation time
 
 
 
