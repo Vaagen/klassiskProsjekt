@@ -7,10 +7,11 @@ from math import *    #this command gives you acces to math functions, such as s
 
 
 
-k=1    # spring constant, equal to G*M
+G = 1    # Gravitational constant
+M = 1000    # Central Mass
 m1 = 1.0    # mass of particle 1
 m2 = 1.0    # mass of particle 2
-dt=0.02  # integration timestep
+dt = 0.02  # integration timestep
 
 # create files to save simulation data in:
 f = open('tertiarypos1.txt','w') # notice: the write option 'w' erases previous data in the file
