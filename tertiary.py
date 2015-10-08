@@ -29,6 +29,12 @@ endtime=200000*dt        #total simulation time
 i = 1                # variable used to save only each <plotdensity>'th value...
 plotdensity = 1000
 
+acceptedEnergyDeviation = 0.002         # accepted deviation of total energy relative to start,
+acceptedAngularMomentumDeviation = 0.002 # accepted deviation of angular momentum relative to start
+
+energyWarningTripped = 0            # used to warn if
+angularMomentumWarningTripped = 0
+
 # create files to save simulation data in:
 f = open('tertiarypos1.txt','w') # notice: the write option 'w' erases previous data in the file
 f2 = open('tertiarypos2.txt','w')
@@ -60,6 +66,12 @@ def gradV2x(): # x component of gradV2
 def gradV2y():  # y component of gradV2
     return gradV1()*y2
 
+E01 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # Total starting energy particle 1
+E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting energy particle 2
+
+L01 = m1*(x1*vy1 - y1*vx1)   # total angular momentum in start of particle 1, in z-direction
+L02 = m2*(x2*vy2 - y2*vx2)   # total angular momentum in start of particle 2, in z-direction
+
 while (time < endtime):
 
         time = time + dt
@@ -89,7 +101,7 @@ while (time < endtime):
         vx2 = vxm2 + 0.5*dt*fx2 # calculating new speed, particle 2
         vy2 = vym2 + 0.5*dt*fy2
 
-    if (i % plotdensity == 0):  # writing to files only each <plotdensity>'th iteration
+        if (i % plotdensity == 0):  # writing to files only each <plotdensity>'th iteration
             E1 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # total energy of particle 1
             E2 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # total energy of particle 2
             
@@ -103,6 +115,18 @@ while (time < endtime):
             f5.write("%f %f\n" % (time, L1))
             f6.write("%f %f\n" % (time, L2))
 
+            if ((abs(1-E1/E01) > acceptedEnergyDeviation) and (not energyWarningTripped)):
+                    print("Warning: total energy is changing by more than %f percent\n" % (acceptedEnergyDeviation*100))
+                    energyWarningTripped = 1
+            if ((abs(1-E2/E02) > acceptedEnergyDeviation) and (not energyWarningTripped)):
+                    print("Warning: total energy is changing by more than %f percent\n" % (acceptedEnergyDeviation*100))
+                    energyWarningTripped = 1
+            if ((abs(1-L1/L01) > acceptedAngularMomentumDeviation) and (not angularMomentumWarningTripped)):
+                    print("Warning: angular momentum is changing by more than %f percent\n" % (acceptedAngularMomentumDeviation*100))
+                    angularMomentumWarningTripped = 1
+            if ((abs(1-L2/L02) > acceptedAngularMomentumDeviation) and (not angularMomentumWarningTripped)):
+                    print("Warning: angular momentum is changing by more than %f percent\n" % (acceptedAngularMomentumDeviation*100))
+                    angularMomentumWarningTripped = 1
 #closing files
 f.close()
 f2.close()
@@ -112,5 +136,7 @@ f5.close()
 f6.close()
 
 
+if ( not 1):
+    print("Hallelujah!")
 
         
