@@ -32,7 +32,7 @@ plotdensity = 1000
 acceptedEnergyDeviation = 0.002         # accepted deviation of total energy relative to start,
 acceptedAngularMomentumDeviation = 0.002 # accepted deviation of angular momentum relative to start
 
-energyWarningTripped = 0            # used to warn if
+energyWarningTripped = 0            # used to warn if energy/angular momentum changes a lot
 angularMomentumWarningTripped = 0
 
 # create files to save simulation data in:
