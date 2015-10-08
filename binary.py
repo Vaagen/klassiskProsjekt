@@ -13,6 +13,7 @@ dt=0.02  # integration timestep
 # create files to save simulation data in:
 f = open('binarypos.txt','w') # notice: the write option 'w' erases previous data in the file
 f2 = open('binaryenergy.txt','w')
+f3 = open('binaryangularmomentum.txt','w')
 
 
 
@@ -43,12 +44,15 @@ while (time < endtime):
 
 
            energy=0.5*m*(vx**2+vy**2) - k/(x**2+y**2)**(0.5)    # calculate the total energy, to check that it is approximately conserved!
+           angMomentum = m*(x*vy - y*vx)        #calculate angular momentum in z-direction
           
 
  
            f.write("%f %f\n" % (x, y))            # Writes x and y positions to file 1       
            f2.write("%f %f\n" % (time, energy))   #  write total energy  to file 2 (can be used to plot total energy as a  function of time)
+           f3.write("%f %f\n" % (time, angMomentum)) # writes total angular momentum to file 3
 
-# close files 
+# close files
 f.close()
 f2.close()
+f3.close()
