@@ -64,38 +64,38 @@ while (time < endtime):
         time = time + dt
         i = i+1
 
-        fx1 = -gradV1x()/m1
+        fx1 = -gradV1x()/m1     # calculating force/mass of particle 1 at time t
         fy1 = -gradV1y()/m1
-        vxm1 = vx1 + 0.5*dt*fx1
+        vxm1 = vx1 + 0.5*dt*fx1 # first part og verlet algorthm for particle 1
         vym1 = vy1 + 0.5*dt*fy1
 
-        fx2 = -gradV2x()/m2
+        fx2 = -gradV2x()/m2     # calculating force/mass of particle 2 at time t
         fy2 = -gradV2y()/m2
-        vxm2 = vx2 + 0.5*dt*fx2
+        vxm2 = vx2 + 0.5*dt*fx2 # first part og verlet algorthm for particle 2
         vym2 = vy2 + 0.5*dt*fy2
 
-        x1 = x1 + vxm1*dt
+        x1 = x1 + vxm1*dt       # updating new position, particle 1
         y1 = y1 + vym1*dt
-        fx1 = -gradV1x()/m1
+        fx1 = -gradV1x()/m1     # calculating new force/mass to update new speed, particle 1
         fy1 = -gradV1y()/m1
-        vx1 = vxm1 + 0.5*dt*fx1
+        vx1 = vxm1 + 0.5*dt*fx1 # calculating new speed, particle 1
         vy1 = vym1 + 0.5*dt*fy1
 
-        x2 = x2 + vxm2*dt
+        x2 = x2 + vxm2*dt       # updating new position, particle 2
         y2 = y2 + vym2*dt
-        fx2 = -gradV2x()/m2
+        fx2 = -gradV2x()/m2     # calculating new force/mass to update new speed, particle 2
         fy2 = -gradV2y()/m2
-        vx2 = vxm2 + 0.5*dt*fx2
+        vx2 = vxm2 + 0.5*dt*fx2 # calculating new speed, particle 2
         vy2 = vym2 + 0.5*dt*fy2
 
-        if (i % plotdensity == 0):
+    if (i % plotdensity == 0):  # writing to files only each <plotdensity>'th iteration
             E1 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # total energy of particle 1
             E2 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # total energy of particle 2
             
             L1 = m1*(x1*vy1 - y1*vx1)   # total angular momentum of particle 1, in z-direction
             L2 = m2*(x2*vy2 - y2*vx2)   # total angular momentum of particle 2, in z-direction
             
-            f.write("%f %f\n" % (x1,y1))
+            f.write("%f %f\n" % (x1,y1))    # writing to files
             f2.write("%f %f\n" % (x2,y2))
             f3.write("%f %f\n" % (time,E1))
             f4.write("%f %f\n" % (time, E2))
