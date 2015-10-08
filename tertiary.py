@@ -7,11 +7,27 @@ from math import *    #this command gives you acces to math functions, such as s
 
 
 
-G = 1    # Gravitational constant
-M = 10    # Central Mass
+G = 1          # Gravitational constant
+M = 10         # Central Mass
 m1 = 0.0001    # mass of particle 1
 m2 = 0.0001    # mass of particle 2
-dt = 0.00001  # integration timestep
+dt = 0.00001   # integration timestep
+
+x1 = 1             #initial position in x-direction, particle 1
+y1 = 0             #initial position in y-direction, particle 1
+vx1 = 0            #initial velocity in x-direction, particle 1
+vy1 = 1            #initial velocity in y-direction, particle 1
+
+x2 = -1            #initial position in x-direction, particle 2
+y2 = 0             #initial position in y-direction, particle 2
+vx2 = 0            #initial velocity in x-direction, particle 2
+vy2 = 1            #initial velocity in y-direction, particle 2
+
+time=0.0                 #this is the start time
+endtime=200000*dt        #total simulation time
+
+i = 1                # variable used to save only each <plotdensity>'th value...
+plotdensity = 1000
 
 # create files to save simulation data in:
 f = open('tertiarypos1.txt','w') # notice: the write option 'w' erases previous data in the file
@@ -21,21 +37,6 @@ f4 = open('tertiaryenergy2.txt','w')
 f5 = open('tertiaryangularmomentum1.txt','w')
 f6 = open('tertiaryangularmomentum2.txt','w')
 
-x1 = 1             #initial position in x-direction, particle 1
-y1 = 0             #initial position in y-direction, particle 1
-vx1 = 0           #initial velocity in x-direction, particle 1
-vy1 = 1            #initial velocity in y-direction, particle 1
-
-x2 = -1             #initial position in x-direction, particle 2
-y2 = 0             #initial position in y-direction, particle 2
-vx2 = 0            #initial velocity in x-direction, particle 2
-vy2 = 1            #initial velocity in y-direction, particle 2
-
-time=0.0          #this is the start time
-endtime=200000*dt        #total simulation time
-
-i = 1 # variable used to save only each <plotdensity>'th value...
-plotdensity = 1000
 
 
 def r1():    # distance between origin and particle 1
