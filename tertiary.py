@@ -8,10 +8,10 @@ from math import *    #this command gives you acces to math functions, such as s
 
 
 G = 1    # Gravitational constant
-M = 1000    # Central Mass
-m1 = 1.0    # mass of particle 1
-m2 = 1.0    # mass of particle 2
-dt = 0.02  # integration timestep
+M = 10    # Central Mass
+m1 = 0.0001    # mass of particle 1
+m2 = 0.0001    # mass of particle 2
+dt = 0.00001  # integration timestep
 
 # create files to save simulation data in:
 f = open('tertiarypos1.txt','w') # notice: the write option 'w' erases previous data in the file
@@ -21,16 +21,16 @@ f4 = open('tertiaryenergy2.txt','w')
 
 x1 = 1             #initial position in x-direction, particle 1
 y1 = 0             #initial position in y-direction, particle 1
-vx1 = 0            #initial velocity in x-direction, particle 1
+vx1 = 0           #initial velocity in x-direction, particle 1
 vy1 = 1            #initial velocity in y-direction, particle 1
 
-x2 = 0             #initial position in x-direction, particle 2
-y2 = 1             #initial position in y-direction, particle 2
-vx2 = -1            #initial velocity in x-direction, particle 2
-vy2 = 0            #initial velocity in y-direction, particle 2
+x2 = -1             #initial position in x-direction, particle 2
+y2 = 0             #initial position in y-direction, particle 2
+vx2 = 0            #initial velocity in x-direction, particle 2
+vy2 = 1            #initial velocity in y-direction, particle 2
 
 time=0.0          #this is the start time
-endtime=350*dt        #total simulation time
+endtime=200000*dt        #total simulation time
 
 
 
@@ -55,10 +55,13 @@ def gradV2x(): # x component of gradV2
 def gradV2y():  # y component of gradV2
     return gradV1()*y2
 
+i = 1 # variable to plot only some values...
+plotdensity = 1000 # plots only each 100 position
 
-while (time < endtime)
+while (time < endtime):
 
         time = time + dt
+        i = i+1
 
         fx1 = -gradV1x()/m1
         fy1 = -gradV1y()/m1
@@ -85,12 +88,13 @@ while (time < endtime)
         vy2 = vym2 + 0.5*dt*fy2
 
         E1 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2()
-        E2 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/R1r2()
+        E2 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2()
 
-        f.write("%f %f\n" % (x1,y1))
-        f2.write("%f %f\n" % (x2,y2))
-        f3.write("%f %f\n" % (time,E1))
-        f4.write("%f %f\n" % (time, E2))
+        if (i % plotdensity == 0):
+            f.write("%f %f\n" % (x1,y1))
+            f2.write("%f %f\n" % (x2,y2))
+            f3.write("%f %f\n" % (time,E1))
+            f4.write("%f %f\n" % (time, E2))
 
 #closing files
 f.close()
