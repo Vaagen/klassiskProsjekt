@@ -9,9 +9,9 @@ from math import *    #this command gives you acces to math functions, such as s
 
 G = 1          # Gravitational constant
 M = 10         # Central Mass
-m1 = 0.0001    # mass of particle 1
-m2 = 0.0001    # mass of particle 2
-dt = 0.00001   # integration timestep
+m1 = 0.00005    # mass of particle 1
+m2 = 0.00001    # mass of particle 2
+dt = 0.000001   # integration timestep
 
 x1 = 1             #initial position in x-direction, particle 1
 y1 = 0             #initial position in y-direction, particle 1
@@ -24,16 +24,14 @@ vx2 = 0            #initial velocity in x-direction, particle 2
 vy2 = 1            #initial velocity in y-direction, particle 2
 
 time=0.0                 #this is the start time
-endtime=200000*dt        #total simulation time
+endtime=1.5        #total simulation time
 
 i = 1                # variable used to save only each <plotdensity>'th value...
-plotdensity = 1000
+plotdensity = 10000
 
-acceptedEnergyDeviation = 0.002         # accepted deviation of total energy relative to start,
-acceptedAngularMomentumDeviation = 0.002 # accepted deviation of angular momentum relative to start
+maxEnergyDeviation = 0              # maximum deviation of energy for a particle, relative to start
+maxAngularMomentumDeviation = 0     # maximum deviation of angular momentum for a particle, relative to start
 
-energyWarningTripped = 0            # used to warn if energy/angular momentum changes a lot
-angularMomentumWarningTripped = 0
 
 # create files to save simulation data in:
 f = open('tertiarypos1.txt','w') # notice: the write option 'w' erases previous data in the file
@@ -115,18 +113,18 @@ while (time < endtime):
             f5.write("%f %f\n" % (time, L1))
             f6.write("%f %f\n" % (time, L2))
 
-            if ((abs(1-E1/E01) > acceptedEnergyDeviation) and (not energyWarningTripped)):
-                    print("Warning: total energy is changing by more than %f percent\n" % (acceptedEnergyDeviation*100))
-                    energyWarningTripped = 1
-            if ((abs(1-E2/E02) > acceptedEnergyDeviation) and (not energyWarningTripped)):
-                    print("Warning: total energy is changing by more than %f percent\n" % (acceptedEnergyDeviation*100))
-                    energyWarningTripped = 1
-            if ((abs(1-L1/L01) > acceptedAngularMomentumDeviation) and (not angularMomentumWarningTripped)):
-                    print("Warning: angular momentum is changing by more than %f percent\n" % (acceptedAngularMomentumDeviation*100))
-                    angularMomentumWarningTripped = 1
-            if ((abs(1-L2/L02) > acceptedAngularMomentumDeviation) and (not angularMomentumWarningTripped)):
-                    print("Warning: angular momentum is changing by more than %f percent\n" % (acceptedAngularMomentumDeviation*100))
-                    angularMomentumWarningTripped = 1
+            if (abs(1-E1/E01) > maxEnergyDeviation):
+                    maxEnergyDeviation = 1 - E1/E01
+            if (abs(1-E2/E02) > maxEnergyDeviation):
+                    maxEnergyDeviation = 1 - E2/E02
+            if (abs(1-L1/L01) > maxAngularMomentumDeviation):
+                    maxAngularMomentumDeviation = L1/L01 - 1
+            if (abs(1-L2/L02) > maxAngularMomentumDeviation):
+                    maxAngularMomentumDeviation = L2/L02 - 1
+
+print("Maximum deviation of energy for a particle relative to start energy is %f\n" % maxEnergyDeviation)
+print("Maximum deviation of angular momentum for a particle relative to start angular momentum is %f\n" % maxAngularMomentumDeviation)
+
 #closing files
 f.close()
 f2.close()
@@ -134,9 +132,5 @@ f3.close()
 f4.close()
 f5.close()
 f6.close()
-
-
-if ( not 1):
-    print("Hallelujah!")
 
         
