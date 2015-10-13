@@ -1,0 +1,118 @@
+\documentclass[5p]{elsarticle}        % 5p gir 2 kolonner pr side. 1p gir 1 kolonne pr side.
+\journal{Fagl\ae rer}
+\usepackage[T1]{fontenc} 				% Vise norske tegn.
+\usepackage[norsk]{babel}				% Tilpasning til norsk.
+\usepackage[utf8]{inputenc}             % selv puttet inn for å kunne skrive norske tegn
+\usepackage{graphicx}       				% For å inkludere figurer.
+\usepackage{amsmath,amssymb} 				% Ekstra matematikkfunksjoner.
+\usepackage{siunitx}					% Må inkluderes for blant annet å få tilgang til kommandoen \SI (korrekte måltall med enheter)
+	\sisetup{exponent-product = \cdot}      	% Prikk som multiplikasjonstegn (i steden for kryss).
+ 	\sisetup{output-decimal-marker  =  {,}} 	% Komma som desimalskilletegn (i steden for punktum).
+ 	\sisetup{separate-uncertainty = true}   	% Pluss-minus-form på usikkerhet (i steden for parentes). 
+\usepackage{booktabs}                     		% For å få tilgang til finere linjer (til bruk i tabeller og slikt).
+\usepackage[font=small,labelfont=bf]{caption}		% For justering av figurtekst og tabelltekst.
+\usepackage{comment}                            % for å kunne kommentere i bolker (med \begin{comment} og \end{comment}
+\usepackage[export]{adjustbox}            % for å kunne plassere figurer bedre, høyre venstre justering
+\usepackage[below]{placeins}                      %tillatter bruk av \FloatBarrier ([above], [below])
+\usepackage{gensymb}                    % gjør at man kan bruke \celsius og \degree
+
+%\usepackage[section]{below}        %begrenser figuerer til sin section, kan bruker i stedet for \usepackage{placeins} 
+
+% Denne setter navnet på abstract til Sammendrag
+\renewenvironment{abstract}{\global\setbox\absbox=\vbox\bgroup
+\hsize=\textwidth\def\baselinestretch{1}%
+\noindent\unskip\textbf{Sammendrag}
+\par\medskip\noindent\unskip\ignorespaces}
+{\egroup}
+
+
+% Disse kommandoene kan gjøre det enklere for LaTeX å plassere figurer og tabeller der du ønsker.
+\setcounter{totalnumber}{5}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\floatpagefraction}{0.35}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\begin{frontmatter}
+
+
+\title{...}
+
+\author[fysikk]{H\aa kon Task{\'{e}}n\ }
+\author[fysikk]{Paul Thrane}
+\address[fysikk]{Institutt for fysikk, Norges Teknisk-Naturvitenskapelige Universitet, N-7491 Trondheim, Norway.}
+
+\begin{abstract}
+
+
+\end{abstract}
+
+\end{frontmatter}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Innledning}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Teori}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metode}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resultat}
+
+%\begin{figure}[h] 
+%	\begin{center}
+%		\includegraphics[width=.55\textwidth,center]{} 
+%	\end{center}
+%		\caption{} 
+%		\label{} % Som med ligningen, er dette navnet vi refererer til.
+%\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Diskusjon}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Konklusjon}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Referanser}
+
+\begin{thebibliography}{99}
+
+\bibitem{macmichael}
+Macmichael, D.B.A., Reay, D.A. Heat Pumps. Pergamon Press, 2nd Edition, 1988.
+
+\bibitem{labheftet}
+Naqvi, Kalbe Razi. Laboratorium i emnene TFY4165/FY1005 Termisk Fysikk. NTNU, V\aa ren 2015.
+
+\bibitem{hemmer}
+Hemmer, P.C. Termisk fysikk. Tapir Akademiske Forlag, 2. utgave, Trondheim 2002.
+
+\bibitem{dupont}
+DuPont. Thermodynamic Properties of HFC-134a (1,1,1,2-tetrafluoroetan). DuPont, 2004.
+
+
+\bibitem{varmetapRor}
+The Engineering Toolbox. Heat Loss of Uninsulated Copper Tubes. http://www.engineeringtoolbox.com/copper-pipe-heat-loss-d\_19.html (Mars 2015).
+
+\bibitem{varmetapBotte}
+The Engineering Toolbox. Heat Loss from Open Water Tanks. http://www.engineeringtoolbox.com/heat-loss-open-water-tanks-d\_286.html (Mars 2015).
+
+\bibitem{vannInfo}
+The Engineering Toolbox. Water - Thermal properties. http://www.engineeringtoolbox.com/water-thermal-properties-d\_162.html (Mars 2015).
+
+\end{thebibliography}
+
+
+\end{document}
+
+
+% varmepumpa eller varmepumpen?
+% trenger jeg å oppgi hvordan jeg kommer fram til delta noe?Ma
