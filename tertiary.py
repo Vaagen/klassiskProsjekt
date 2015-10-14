@@ -9,14 +9,14 @@ from math import *    #this command gives you acces to math functions, such as s
 
 G = 1          # Gravitational constant
 M = 2         # Central Mass
-m1 = 0.000001    # mass of particle 1
+m1 = 0.0001    # mass of particle 1
 m2 = 0.0    # mass of particle 2
 dt = 0.0001   # integration timestep
 
 x1 = 1             #initial position in x-direction, particle 1
 y1 =0              #initial position in y-direction, particle 1
 vx1 = 0            #initial velocity in x-direction, particle 1
-vy1 = 0.5            #initial velocity in y-direction, particle 1
+vy1 = 1.5            #initial velocity in y-direction, particle 1
 
 x2 = 1            #initial position in x-direction, particle 2
 y2 = 1             #initial position in y-direction, particle 2
@@ -24,7 +24,7 @@ vx2 = 0            #initial velocity in x-direction, particle 2
 vy2 = 0            #initial velocity in y-direction, particle 2
 
 time=0.0                 #this is the start time
-endtime=20        #total simulation time
+endtime=10        #total simulation time
 
 i = 1                # variable used to save only each <plotdensity>'th value...
 plotdensity = 10
@@ -50,15 +50,15 @@ def r2():    # distance between origin and particle 2
 def r1r2():  # distance between particle 1 and 2
     return ( (x1 - x2)**2 + (y1 - y2)**2)**0.5
 
-def gradV1x():  # x component of gradV1
-    return G*M/r1()**3*x1 + G*m2/r1r2()**3*(x1-x2)
-def gradV1y():  # y component of gradV1
-    return G*M*m1/r1()**3*y1 + G*m1*m2/r1r2()**3*(y1-y2)
+def f1x():  # x component of f1 = F1/m1
+    return -G*M/r1()**3*x1 - G*m2/r1r2()**3*(x1-x2)
+def f1y():  # y component of f1 = F1/m1
+    return -G*M/r1()**3*y1 - G*m2/r1r2()**3*(y1-y2)
 
-def gradV2x(): # x component of gradV2
-    return G*M*m2/r2()**3*x2 + G*m1*m2/r1r2()**3*(x2-x1)
-def gradV2y():  # y component of gradV2
-    return G*M*m2/r2()**3*y2 + G*m1*m2/r1r2()**3*(y2-y1)
+def f2x(): # x component of f2 = F2/m2
+    return -G*M/r2()**3*x2 - G*m1/r1r2()**3*(x2-x1)
+def f2y():  # y component of f2 = F2/m2
+    return -G*M/r2()**3*y2 - G*m1/r1r2()**3*(y2-y1)
 
 E01 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # Total starting energy particle 1
 E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting energy particle 2
@@ -66,18 +66,21 @@ E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting e
 L01 = m1*(x1*vy1 - y1*vx1)   # total angular momentum in start of particle 1, in z-direction
 L02 = m2*(x2*vy2 - y2*vx2)   # total angular momentum in start of particle 2, in z-direction
 
+print("The energy of particle 1 is: %f" % E01)
+print("The energy of particle 2 is: %f" % E02)
+
 while (time < endtime):
 
         time = time + dt
         i = i+1
 
-        fx1 = -gradV1x()     # calculating force/mass of particle 1 at time t
-        fy1 = -gradV1y()
+        fx1 = f1x()     # calculating force/mass of particle 1 at time t
+        fy1 = f1y()
         vxm1 = vx1 + 0.5*dt*fx1 # first part og verlet algorthm for particle 1
         vym1 = vy1 + 0.5*dt*fy1
 
-        fx2 = -gradV2x()     # calculating force/mass of particle 2 at time t
-        fy2 = -gradV2y()
+        fx2 = f2x()     # calculating force/mass of particle 2 at time t
+        fy2 = f2y()
         vxm2 = vx2 + 0.5*dt*fx2 # first part og verlet algorthm for particle 2
         vym2 = vy2 + 0.5*dt*fy2
 
@@ -86,13 +89,13 @@ while (time < endtime):
         x2 = x2 + vxm2*dt       # updating new position, particle 2
         y2 = y2 + vym2*dt
         
-        fx1 = -gradV1x()     # calculating new force/mass to update new speed, particle 1
-        fy1 = -gradV1y()
+        fx1 = f1x()     # calculating new force/mass to update new speed, particle 1
+        fy1 = f1y()
         vx1 = vxm1 + 0.5*dt*fx1 # calculating new speed, particle 1
         vy1 = vym1 + 0.5*dt*fy1
         
-        fx2 = -gradV2x()     # calculating new force/mass to update new speed, particle 2
-        fy2 = -gradV2y()
+        fx2 = f2x()     # calculating new force/mass to update new speed, particle 2
+        fy2 = f2y()
         vx2 = vxm2 + 0.5*dt*fx2 # calculating new speed, particle 2
         vy2 = vym2 + 0.5*dt*fy2
 
