@@ -1,4 +1,5 @@
 gnuplot << EOF
-plot 'binarypos.txt'
+set size square
+plot 'binarypos.txt' title 'Position of single particle' with line
 EOF
 

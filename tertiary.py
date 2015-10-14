@@ -8,13 +8,13 @@ from math import *    #this command gives you acces to math functions, such as s
 
 
 G = 1          # Gravitational constant
-M = 10         # Central Mass
-m1 = 0.00005    # mass of particle 1
-m2 = 0.00001    # mass of particle 2
-dt = 0.000001   # integration timestep
+M = 2         # Central Mass
+m1 = 0.0000001    # mass of particle 1
+m2 = 0.0000001    # mass of particle 2
+dt = 0.00001   # integration timestep
 
-x1 = 1             #initial position in x-direction, particle 1
-y1 = 0             #initial position in y-direction, particle 1
+x1 = 0.9             #initial position in x-direction, particle 1
+y1 =0.1              #initial position in y-direction, particle 1
 vx1 = 0            #initial velocity in x-direction, particle 1
 vy1 = 1            #initial velocity in y-direction, particle 1
 
@@ -24,10 +24,10 @@ vx2 = 0            #initial velocity in x-direction, particle 2
 vy2 = 1            #initial velocity in y-direction, particle 2
 
 time=0.0                 #this is the start time
-endtime=1.5        #total simulation time
+endtime=10        #total simulation time
 
 i = 1                # variable used to save only each <plotdensity>'th value...
-plotdensity = 10000
+plotdensity = 10
 
 maxEnergyDeviation = 0              # maximum deviation of energy for a particle, relative to start
 maxAngularMomentumDeviation = 0     # maximum deviation of angular momentum for a particle, relative to start
