@@ -9,22 +9,22 @@ from math import *    #this command gives you acces to math functions, such as s
 
 G = 1          # Gravitational constant
 M = 2         # Central Mass
-m1 = 0.0000001    # mass of particle 1
-m2 = 0.0000001    # mass of particle 2
-dt = 0.00001   # integration timestep
+m1 = 0.000001    # mass of particle 1
+m2 = 0.0    # mass of particle 2
+dt = 0.0001   # integration timestep
 
-x1 = 0.9             #initial position in x-direction, particle 1
-y1 =0.1              #initial position in y-direction, particle 1
+x1 = 1             #initial position in x-direction, particle 1
+y1 =0              #initial position in y-direction, particle 1
 vx1 = 0            #initial velocity in x-direction, particle 1
-vy1 = 1            #initial velocity in y-direction, particle 1
+vy1 = 0.5            #initial velocity in y-direction, particle 1
 
-x2 = -1            #initial position in x-direction, particle 2
-y2 = 0             #initial position in y-direction, particle 2
+x2 = 1            #initial position in x-direction, particle 2
+y2 = 1             #initial position in y-direction, particle 2
 vx2 = 0            #initial velocity in x-direction, particle 2
-vy2 = 1            #initial velocity in y-direction, particle 2
+vy2 = 0            #initial velocity in y-direction, particle 2
 
 time=0.0                 #this is the start time
-endtime=10        #total simulation time
+endtime=20        #total simulation time
 
 i = 1                # variable used to save only each <plotdensity>'th value...
 plotdensity = 10
@@ -50,19 +50,15 @@ def r2():    # distance between origin and particle 2
 def r1r2():  # distance between particle 1 and 2
     return ( (x1 - x2)**2 + (y1 - y2)**2)**0.5
 
-def gradV1():   # part of gradV1 in common for both x- and y-direction
-    return (G*M*m1/r1()**(3/2) + G*m1*m2/r1r2()**(3/2))
 def gradV1x():  # x component of gradV1
-    return gradV1()*x1
+    return G*M/r1()**3*x1 + G*m2/r1r2()**3*(x1-x2)
 def gradV1y():  # y component of gradV1
-    return gradV1()*y1
+    return G*M*m1/r1()**3*y1 + G*m1*m2/r1r2()**3*(y1-y2)
 
-def gradV2():   # part of gradV2 in common for both x- and y-direction
-    return (G*M*m2/r2()**(3/2) + G*m1*m2/r1r2()**(3/2))
 def gradV2x(): # x component of gradV2
-    return gradV1()*x2
+    return G*M*m2/r2()**3*x2 + G*m1*m2/r1r2()**3*(x2-x1)
 def gradV2y():  # y component of gradV2
-    return gradV1()*y2
+    return G*M*m2/r2()**3*y2 + G*m1*m2/r1r2()**3*(y2-y1)
 
 E01 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # Total starting energy particle 1
 E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting energy particle 2
@@ -75,27 +71,28 @@ while (time < endtime):
         time = time + dt
         i = i+1
 
-        fx1 = -gradV1x()/m1     # calculating force/mass of particle 1 at time t
-        fy1 = -gradV1y()/m1
+        fx1 = -gradV1x()     # calculating force/mass of particle 1 at time t
+        fy1 = -gradV1y()
         vxm1 = vx1 + 0.5*dt*fx1 # first part og verlet algorthm for particle 1
         vym1 = vy1 + 0.5*dt*fy1
 
-        fx2 = -gradV2x()/m2     # calculating force/mass of particle 2 at time t
-        fy2 = -gradV2y()/m2
+        fx2 = -gradV2x()     # calculating force/mass of particle 2 at time t
+        fy2 = -gradV2y()
         vxm2 = vx2 + 0.5*dt*fx2 # first part og verlet algorthm for particle 2
         vym2 = vy2 + 0.5*dt*fy2
 
         x1 = x1 + vxm1*dt       # updating new position, particle 1
         y1 = y1 + vym1*dt
-        fx1 = -gradV1x()/m1     # calculating new force/mass to update new speed, particle 1
-        fy1 = -gradV1y()/m1
-        vx1 = vxm1 + 0.5*dt*fx1 # calculating new speed, particle 1
-        vy1 = vym1 + 0.5*dt*fy1
-
         x2 = x2 + vxm2*dt       # updating new position, particle 2
         y2 = y2 + vym2*dt
-        fx2 = -gradV2x()/m2     # calculating new force/mass to update new speed, particle 2
-        fy2 = -gradV2y()/m2
+        
+        fx1 = -gradV1x()     # calculating new force/mass to update new speed, particle 1
+        fy1 = -gradV1y()
+        vx1 = vxm1 + 0.5*dt*fx1 # calculating new speed, particle 1
+        vy1 = vym1 + 0.5*dt*fy1
+        
+        fx2 = -gradV2x()     # calculating new force/mass to update new speed, particle 2
+        fy2 = -gradV2y()
         vx2 = vxm2 + 0.5*dt*fx2 # calculating new speed, particle 2
         vy2 = vym2 + 0.5*dt*fy2
 
@@ -113,13 +110,13 @@ while (time < endtime):
             f5.write("%f %f\n" % (time, L1))
             f6.write("%f %f\n" % (time, L2))
 
-            if (abs(1-E1/E01) > maxEnergyDeviation):
+            if E01 > 0 and (abs(1-E1/E01) > maxEnergyDeviation):
                     maxEnergyDeviation = 1 - E1/E01
-            if (abs(1-E2/E02) > maxEnergyDeviation):
+            if E02 > 0 and (abs(1-E2/E02) > maxEnergyDeviation):
                     maxEnergyDeviation = 1 - E2/E02
-            if (abs(1-L1/L01) > maxAngularMomentumDeviation):
+            if L01 > 0 and (abs(1-L1/L01) > maxAngularMomentumDeviation):
                     maxAngularMomentumDeviation = L1/L01 - 1
-            if (abs(1-L2/L02) > maxAngularMomentumDeviation):
+            if L02 > 0 and (abs(1-L2/L02) > maxAngularMomentumDeviation):
                     maxAngularMomentumDeviation = L2/L02 - 1
 
 print("Maximum deviation of energy for a particle relative to start energy is %f\n" % maxEnergyDeviation)
