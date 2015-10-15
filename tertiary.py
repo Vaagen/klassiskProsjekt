@@ -4,21 +4,21 @@ from math import *    #this command gives you acces to math functions, such as s
 # If you want to only analyze orbit of a single particle, set m2 = 0, and disregard files giving position, energy and angular momentum for particle 2.
 ########################################
 G = 1               # Gravitational constant
-M = 100               # Central Mass
-m1 = 0.7           # mass of particle 1
-m2 = 0.5          # mass of particle 2
+M = 1               # Central Mass
+m1 = 0.1           # mass of particle 1
+m2 = 0.0         # mass of particle 2
 
 x1 = 1              #initial position in x-direction, particle 1
 y1 =0               #initial position in y-direction, particle 1
 vx1 = 0             #initial velocity in x-direction, particle 1
-vy1 = 2           #initial velocity in y-direction, particle 1
+vy1 = 1           #initial velocity in y-direction, particle 1
 
 x2 = 0              #initial position in x-direction, particle 2
 y2 = 1              #initial position in y-direction, particle 2
 vx2 = 3           #initial velocity in x-direction, particle 2
-vy2 = 0             #initial velocity in y-direction, particle 2
+vy2 = 0            #initial velocity in y-direction, particle 2
 
-dt = 0.00001          # integration timestep
+dt = 0.001          # integration timestep
 endtime=2        #total simulation time
 
 positionUncertainty = 0.1      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
@@ -87,11 +87,13 @@ def f2x(): # x component of f2 = F2/m2
 def f2y():  # y component of f2 = F2/m2
     return -G*M/r2()**3*y2 - G*m1/r1r2()**3*(y2-y1)
 
-E01 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # Total starting energy particle 1, dimensionless
-E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting energy particle 2, dimensionless
+E01 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # Total starting energy particle 1
+E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting energy particle 2
+E0 = E01 + E02  # Total startin energy of system
 
 L01 = m1*(x1*vy1 - y1*vx1)   # total angular momentum in start of particle 1, in z-direction
 L02 = m2*(x2*vy2 - y2*vx2)   # total angular momentum in start of particle 2, in z-direction
+L0 = L01 + L02
 
 print("The energy of particle 1 (dimensionless) is: %f" % E01)
 print("The energy of particle 2 (dimensionless) is: %f" % E02)
@@ -134,18 +136,16 @@ while (time < endtime):
         
         E1 = T1 + V1                        # total energy of particles
         E2 = T2 + V2
+        E= E1 + E2
             
         L1 = m1*(x1*vy1 - y1*vx1)   # total angular momentum of particle 1, in z-direction
         L2 = m2*(x2*vy2 - y2*vx2)   # total angular momentum of particle 2, in z-direction
+        L = L1 + L2
 
-        if abs(E01) > 0 and (abs(1-E1/E01) > maxEnergyDeviation):  # Checking if deviation of energy or ang.momentum has grown.
-            maxEnergyDeviation = 1 - E1/E01
-        if abs(E02) > 0 and (abs(1-E2/E02) > maxEnergyDeviation):
-            maxEnergyDeviation = 1 - E2/E02
-        if abs(L01) > 0 and (abs(1-L1/L01) > maxAngularMomentumDeviation):
-            maxAngularMomentumDeviation = L1/L01 - 1
-        if abs(L02) > 0 and (abs(1-L2/L02) > maxAngularMomentumDeviation):
-            maxAngularMomentumDeviation = L2/L02 - 1
+        if abs(E0) > 0 and (abs(1-E/E0) > abs(maxEnergyDeviation)):  # Checking if deviation of energy or ang.momentum has grown.
+            maxEnergyDeviation = 1-E/E0
+        if abs(L0) > 0 and (abs(1-L/L0) > abs(maxAngularMomentumDeviation)):
+            maxAngularMomentumDeviation = L/L0 - 1
 
         averageT1 = averageT1 + T1      # adding energy of current state, will divide by number of states later
         averageT2 = averageT2 + T2
@@ -208,16 +208,25 @@ f6.close()
 # create file to save simulation data in:
 f = open('tertiarypos1EXACT.txt','w') # notice: the write option 'w' erases previous data in the file
 
-a = -G*M/(2*E01)
-e = ( 1 + 2*E01*L01**2/(m1*G**2*M**2) )**0.5
+a = -G*M/(2.0*E01)
+e = ( 1.0 + 2.0*E01*L01**2.0/(m1*G**2.0*M**2.0) )**0.5
+print a
+print e
+print E01
+print L01
 def r1EXACT(theta):
     # ignoring the constant inside cos() as we are interested in plotting a complete orbit
-    return a*(1-e**2)/( 1 + e*cos(theta) )
+    return a*(1.0-e**2.0)/( 1.0 + e*cos(theta) )
 
-for Theta in np.nditer(np.arange(0,2*pi,0.1)):
-    x1 = -r1EXACT(Theta)*cos(Theta)
+#for Theta in np.nditer(np.arange(0.0,2.0*pi,0.01)):
+Theta = 0
+while Theta < 2*pi:
+    Theta = Theta + pi/180
+    x1 = r1EXACT(Theta)*cos(Theta)
     y1 = r1EXACT(Theta)*sin(Theta)
     f.write("%f %f\n" % (x1,y1))    # writing to file
+
+print a*(1-e**2)
 
 # closing file
 f.close
