@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
 from math import *    #this command gives you acces to math functions, such as sin(), pow() etc
 
 # If you want to only analyze orbit of a single particle, set m2 = 0, and disregard files giving position, energy and angular momentum for particle 2.
@@ -23,7 +21,8 @@ vy2 = 0             #initial velocity in y-direction, particle 2
 dt = 0.0001          # integration timestep
 endtime=10         #total simulation time
 
-plotspacing = 1
+positionUncertainty = 0.001      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
+plotspacing = 1     # How often variables are written to file (in terms of how often they are calculated)
 #########################################
 # Changing to dimensionless variables, using starting position and speed of particle 1 as referance
 
@@ -46,7 +45,22 @@ G = G / (R01 * V01**2)
 time=0.0                              #this is the start time
 maxEnergyDeviation = 0.0              # maximum deviation of energy for a particle, relative to start
 maxAngularMomentumDeviation = 0.0     # maximum deviation of angular momentum for a particle, relative to start
-i = 1                                 # variable used to save only each <plotspacing>'th value...
+i = 1                                 # variable used to save only each <plotspacing>'th value to file...
+
+x01 = x1            # Saving starting positions to be able to calculate average kinetic and potential energy
+y01 = y1
+x02 = x2
+y02 = y2
+
+averageT1 = 0       # Variables for calculating average kinetic and potential energy of particles ov er one orbital period
+averageT2 = 0
+averageV1 = 0
+averageV2 = 0
+
+inStartingPosition1 = 1              # these are to keep track of whether the particle has left the starting position, and if it has compleated it's first revolution
+inStartingPosition2 = 1
+compleatedFirstRevolution1 = 0
+compleatedFirstRevolution2 = 0
 
 # create files to save simulation data in:
 f = open('tertiarypos1.txt','w') # notice: the write option 'w' erases previous data in the file
@@ -111,13 +125,60 @@ while (time < endtime):
         fy2 = f2y()
         vx2 = vxm2 + 0.5*dt*fx2 # calculating new speed, particle 2
         vy2 = vym2 + 0.5*dt*fy2
+        
+        T1 = 0.5*m1*(vx1**2 + vy1**2)       # Kinetic energy of particles
+        T2 = 0.5*m2*(vx2**2 + vy2**2)
+        
+        V1 = - G*M*m1/r1() - G*m1*m2/r1r2() # Potential energy of particles
+        V2 = - G*M*m2/r2() - G*m1*m2/r1r2()
+        
+        E1 = T1 + V1                        # total energy of particles
+        E2 = T2 + V2
+            
+        L1 = m1*(x1*vy1 - y1*vx1)   # total angular momentum of particle 1, in z-direction
+        L2 = m2*(x2*vy2 - y2*vx2)   # total angular momentum of particle 2, in z-direction
+
+        if abs(E01) > 0 and (abs(1-E1/E01) > maxEnergyDeviation):  # Checking if deviation of energy or ang.momentum has grown.
+            maxEnergyDeviation = 1 - E1/E01
+        if abs(E02) > 0 and (abs(1-E2/E02) > maxEnergyDeviation):
+            maxEnergyDeviation = 1 - E2/E02
+        if abs(L01) > 0 and (abs(1-L1/L01) > maxAngularMomentumDeviation):
+            maxAngularMomentumDeviation = L1/L01 - 1
+        if abs(L02) > 0 and (abs(1-L2/L02) > maxAngularMomentumDeviation):
+            maxAngularMomentumDeviation = L2/L02 - 1
+
+        averageT1 = averageT1 + T1      # adding energy of current state, will divide by number of states later
+        averageT2 = averageT2 + T2
+        averageV1 = averageV1 + V1
+        averageV2 = averageV2 + V2
+
+        if abs(x1-x01) > positionUncertainty and abs(y1 - y01) > positionUncertainty and inStartingPosition1:
+            inStartingPosition1 = 0
+        if abs(x2-x02) > positionUncertainty and abs(y2 - y02) > positionUncertainty and inStartingPosition2:
+            inStartingPosition2 = 0
+
+        if compleatedFirstRevolution1 ==0 and inStartingPosition1 ==0 and (abs(x1-x01) < positionUncertainty) and (abs(y1 - y01) < positionUncertainty):
+            print("\nParticle 1:")
+            outPut = time*R01/V01
+            print("Orbital period is %f" % outPut)
+            outPut = averageT1*dt/time
+            print("Average kintetic energy is %f" % outPut)
+            outPut = averageV1*dt/time
+            print("Average potential energy is %f\n" % outPut)
+            compleatedFirstRevolution1 = 1
+
+        if compleatedFirstRevolution2==0 and inStartingPosition2==0 and (abs(x2-x02) < positionUncertainty) and (abs(y2 - y02) < positionUncertainty):
+            print("\nParticle 2:")
+            outPut = time*R01/V01
+            print("Orbital period is %f" % outPut)
+            outPut = averageT2*dt/time
+            print("Average kintetic energy is %f" % outPut)
+            outPut = averageV2*dt/time
+            print("Average potential energy is %f\n" % outPut)
+            compleatedFirstRevolution2 = 1
+
 
         if (i % plotspacing == 0):  # writing to files only each <plotspacing>'th iteration
-            E1 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # total energy of particle 1
-            E2 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # total energy of particle 2
-            
-            L1 = m1*(x1*vy1 - y1*vx1)   # total angular momentum of particle 1, in z-direction
-            L2 = m2*(x2*vy2 - y2*vx2)   # total angular momentum of particle 2, in z-direction
             
             f.write("%f %f\n" % (x1,y1))    # writing to files
             f2.write("%f %f\n" % (x2,y2))
@@ -126,17 +187,9 @@ while (time < endtime):
             f5.write("%f %f\n" % (time, L1))
             f6.write("%f %f\n" % (time, L2))
 
-            if abs(E01) > 0 and (abs(1-E1/E01) > maxEnergyDeviation):
-                    maxEnergyDeviation = 1 - E1/E01
-            if abs(E02) > 0 and (abs(1-E2/E02) > maxEnergyDeviation):
-                    maxEnergyDeviation = 1 - E2/E02
-            if abs(L01) > 0 and (abs(1-L1/L01) > maxAngularMomentumDeviation):
-                    maxAngularMomentumDeviation = L1/L01 - 1
-            if abs(L02) > 0 and (abs(1-L2/L02) > maxAngularMomentumDeviation):
-                    maxAngularMomentumDeviation = L2/L02 - 1
 
-print("Maximum deviation of energy for a particle relative to start energy is %f\n" % maxEnergyDeviation)
-print("Maximum deviation of angular momentum for a particle relative to start angular momentum is %f\n" % maxAngularMomentumDeviation)
+print("Maximum deviation of energy for a particle relative to start energy is %f" % maxEnergyDeviation)
+print("Maximum deviation of angular momentum for a particle relative to start angular momentum is %f" % maxAngularMomentumDeviation)
 
 #closing files
 f.close()
@@ -145,5 +198,3 @@ f3.close()
 f4.close()
 f5.close()
 f6.close()
-
-        
