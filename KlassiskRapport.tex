@@ -14,6 +14,7 @@
 \usepackage{comment}                            % for Œ kunne kommentere i bolker (med \begin{comment} og \end{comment}
 \usepackage[export]{adjustbox}            % for Œ kunne plassere figurer bedre, h¿yre venstre justering
 \usepackage[below]{placeins}                      %tillatter bruk av \FloatBarrier ([above], [below])
+\usepackage{pdfpages}
 
 %\usepackage[section]{below}        %begrenser figuerer til sin section, kan bruker i stedet for \usepackage{placeins} 
 
@@ -45,16 +46,55 @@
 \end{abstract}
 \end{frontmatter}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Innledning}
+%\section{Innledning}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Teori}
+\section{Teori og metode}
+Bevegelsen til en partikkel i posisjon $\vec{r}_i$ med masse $m_i$, utsatt for en kraft $\vec{F}_i$, vil v\ae re bestemt av Newtons bevegelsesligning
+\begin{equation}
+m_i\frac{\mathrm{d}^2\vec{r}_i}{\mathrm{d}t^2}=\vec{F}_i.
+\label{N2}
+\end{equation}
+Ligning \eqref{N2} kan skrives om til to koblede differensialligninger \cite{prosjektbeskrivelse}
+\begin{equation}
+\frac{\mathrm{d}\vec{v}_i}{\mathrm{d}t} = \vec{f}_i,
+\label{n1}
+\end{equation}
+\begin{equation}
+\frac{\mathrm{d}\vec{r}_i}{\mathrm{d}t}  = \vec{v}_i,
+\label{n2}
+\end{equation}
+hvor $\vec{f}_i$ er kraft per masse p\aa \ partikkelen og $\vec{v}_i$ er hastigheten til partikkelen. Dersom initialbetingelser for $\vec{r}_i$ of $\vec{v}_i$ er kjent kan videre tidsforl\o p bestemmes ved numerisk l\o sning av \eqref{n1} og \eqref{n2} hvis $\vec{f}_i$ kan beregnes p\aa \ grunnlag av posisjon og hastighet til partikkelen. En metode som kan benyttes til dette er Verlet integrasjon, hvor $\vec{r}_i(t + \Delta t)$ og  $\vec{v}_i(t + \Delta t)$ beregnes etter kjennskap til $\vec{r}_i(t)$ ved f\o lgende ligninger\cite{prosjektbeskrivelse}
+\begin{equation}
+\vec{v}_i(t + \frac{\Delta t}{2}) = \vec{v}_i(t) + \vec{f}_i(t)\frac{\Delta t}{2},
+\end{equation}
+\begin{equation}
+\vec{r}_i(t + \Delta t) = \vec{r}_i(t) + \vec{v}_i(t + \frac{\Delta t}{2})\Delta t,
+\end{equation}
+\begin{equation}
+\vec{v}_i(t + \Delta t) = \vec{v}_i(t + \frac{\Delta t}{2}) + \vec{f}_i(t + \Delta t)\frac{\Delta t}{2}.
+\end{equation}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Metode}
+Dersom potensialet til partikkelen, $V_i$, er kjent, kan kraften p\aa \ partikkelen beregnes ut fra sammenhengen $\vec{F}_i=-\nabla V_i$. I dette numeriske fors\o ket ble Verlet integrasjon benyttet for \aa \ beregne bevegelsene til \'{e}n og to massive partikler i bane rundt et sentralt legeme med masse $M$ og med gravitasjon som eneste vekselvirkende kraft. Det ble antatt at partiklenes masse, $m_1$ og $m_2$, var mye mindre enn $M$ slik at den sentrale massen st\aa r fast i origo. For \'{e}n enkelt partikkel blir potensialet
+\begin{equation}
+V_1 = \frac{GMm_1}{r_1},
+\end{equation}
+med $G$ en konstant som bestemmer styrken p\aa \ gravitasjonskraften. For to partikler blir potensialet p\aa \ partikkel $i$ ogs\aa \ p\aa virket av posisjonen til partikkel $j$
+\begin{equation}
+V_i = \frac{GMm_i}{r_i} + \frac{Gm_im_j}{r_i-r_j}.
+\end{equation}
 
+For \aa \ unders\o ke n\o yaktignheten av den numeriske metoden ble bevaring av energi og dreieimpuls unders\o kt. I tillegg ble de beregnede orbitalene til en enkelt partikkel sammenlignet med det eksakte uttrykket \cite{goldstein}
+\begin{equation}
+r = \frac{a(1-e^2)}{1+e\cos{(\theta - \theta')}},
+\end{equation}
+hvor $(r,\theta)$ er posisjonen til partikkelen i polarkoordinater. Konstantene $a = -GM/2E$, og $e=(1+2El^2/m_1G^2M^2)^{0.5}$, der $E$ er energien til partikkelen og $l$ er dreieimpulsen om origo. Konstanten $\theta'$ spesifiseres av initialbetingelsene og kan settes lik null om en kun er interessert i hele orbitalen. Videre ble ogs\aa \ virialteoremet for \aa \ unders\o ke n\o yaktigheten av metoden da den gir en sammenheng mellom gjennomsnittlig kinetisk energi $\bar{T}$ og gjennomsnittlig potensiell energi $\bar{V}$\cite{goldstein}
+\begin{equation}
+\frac{\bar{T}}{\bar{V}}=-\frac{1}{2}.
+\label{virial}
+\end{equation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Resultat}
 
@@ -77,33 +117,15 @@
 
 \begin{thebibliography}{99}
 
-\bibitem{macmichael}
-Macmichael, D.B.A., Reay, D.A. Heat Pumps. Pergamon Press, 2nd Edition, 1988.
+\bibitem{prosjektbeskrivelse}
+Prosjektbeskrivelse, Classical Mechanics TFY4345 - Computational Physics Project. NTNU, H\o sten 2015.
 
-\bibitem{labheftet}
-Naqvi, Kalbe Razi. Laboratorium i emnene TFY4165/FY1005 Termisk Fysikk. NTNU, V\aa ren 2015.
-
-\bibitem{hemmer}
-Hemmer, P.C. Termisk fysikk. Tapir Akademiske Forlag, 2. utgave, Trondheim 2002.
-
-\bibitem{dupont}
-DuPont. Thermodynamic Properties of HFC-134a (1,1,1,2-tetrafluoroetan). DuPont, 2004.
-
-
-\bibitem{varmetapRor}
-The Engineering Toolbox. Heat Loss of Uninsulated Copper Tubes. http://www.engineeringtoolbox.com/copper-pipe-heat-loss-d\_19.html (Mars 2015).
-
-\bibitem{varmetapBotte}
-The Engineering Toolbox. Heat Loss from Open Water Tanks. http://www.engineeringtoolbox.com/heat-loss-open-water-tanks-d\_286.html (Mars 2015).
-
-\bibitem{vannInfo}
-The Engineering Toolbox. Water - Thermal properties. http://www.engineeringtoolbox.com/water-thermal-properties-d\_162.html (Mars 2015).
+\bibitem{goldstein}
+Goldstein, Safko, Poole. Classical Mechanics. Pearson Education Limited, Pearson new international edition, 3. utgave, 2014.
 
 \end{thebibliography}
 
+\includepdf[pages={1-},scale=1.2]{Appendix.pdf}
+
 
 \end{document}
-
-
-% varmepumpa eller varmepumpen?
-% trenger jeg Œ oppgi hvordan jeg kommer fram til delta noe?Ma
