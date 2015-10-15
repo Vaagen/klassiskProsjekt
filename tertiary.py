@@ -4,24 +4,24 @@ from math import *    #this command gives you acces to math functions, such as s
 # If you want to only analyze orbit of a single particle, set m2 = 0, and disregard files giving position, energy and angular momentum for particle 2.
 ########################################
 G = 1               # Gravitational constant
-M = 2               # Central Mass
-m1 = 0.01           # mass of particle 1
-m2 = 0.01          # mass of particle 2
+M = 100               # Central Mass
+m1 = 0.7           # mass of particle 1
+m2 = 0.5          # mass of particle 2
 
-x1 = 2              #initial position in x-direction, particle 1
+x1 = 1              #initial position in x-direction, particle 1
 y1 =0               #initial position in y-direction, particle 1
 vx1 = 0             #initial velocity in x-direction, particle 1
-vy1 = 0.9           #initial velocity in y-direction, particle 1
+vy1 = 2           #initial velocity in y-direction, particle 1
 
 x2 = 0              #initial position in x-direction, particle 2
 y2 = 1              #initial position in y-direction, particle 2
-vx2 = 0.5           #initial velocity in x-direction, particle 2
+vx2 = 3           #initial velocity in x-direction, particle 2
 vy2 = 0             #initial velocity in y-direction, particle 2
 
-dt = 0.0001          # integration timestep
-endtime=10         #total simulation time
+dt = 0.00001          # integration timestep
+endtime=2        #total simulation time
 
-positionUncertainty = 0.001      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
+positionUncertainty = 0.1      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
 plotspacing = 1     # How often variables are written to file (in terms of how often they are calculated)
 #########################################
 # Changing to dimensionless variables, using starting position and speed of particle 1 as referance
@@ -42,7 +42,7 @@ endtime = endtime * V01 / R01
 
 G = G / (R01 * V01**2)
 
-time=0.0                              #this is the start time
+time=0.0                              # this is the start time
 maxEnergyDeviation = 0.0              # maximum deviation of energy for a particle, relative to start
 maxAngularMomentumDeviation = 0.0     # maximum deviation of angular momentum for a particle, relative to start
 i = 1                                 # variable used to save only each <plotspacing>'th value to file...
@@ -87,14 +87,14 @@ def f2x(): # x component of f2 = F2/m2
 def f2y():  # y component of f2 = F2/m2
     return -G*M/r2()**3*y2 - G*m1/r1r2()**3*(y2-y1)
 
-E01 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # Total starting energy particle 1
-E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting energy particle 2
+E01 = 0.5*m1*(vx1**2 + vy1**2) - G*M*m1/r1() - G*m1*m2/r1r2() # Total starting energy particle 1, dimensionless
+E02 = 0.5*m2*(vx2**2 + vy2**2) - G*M*m2/r2() - G*m1*m2/r1r2() # Total starting energy particle 2, dimensionless
 
 L01 = m1*(x1*vy1 - y1*vx1)   # total angular momentum in start of particle 1, in z-direction
 L02 = m2*(x2*vy2 - y2*vx2)   # total angular momentum in start of particle 2, in z-direction
 
-print("The energy of particle 1 is: %f" % E01)
-print("The energy of particle 2 is: %f" % E02)
+print("The energy of particle 1 (dimensionless) is: %f" % E01)
+print("The energy of particle 2 (dimensionless) is: %f" % E02)
 
 while (time < endtime):
 
@@ -152,28 +152,31 @@ while (time < endtime):
         averageV1 = averageV1 + V1
         averageV2 = averageV2 + V2
 
+        # Checking if particles have left their strting positions
         if abs(x1-x01) > positionUncertainty and abs(y1 - y01) > positionUncertainty and inStartingPosition1:
             inStartingPosition1 = 0
         if abs(x2-x02) > positionUncertainty and abs(y2 - y02) > positionUncertainty and inStartingPosition2:
             inStartingPosition2 = 0
 
+        # Checking if particle 1 has returned to it's original position, displaying info if it has
         if compleatedFirstRevolution1 ==0 and inStartingPosition1 ==0 and (abs(x1-x01) < positionUncertainty) and (abs(y1 - y01) < positionUncertainty):
             print("\nParticle 1:")
-            outPut = time*R01/V01
+            outPut = time*R01/V01   # Changing back to right dimension
             print("Orbital period is %f" % outPut)
-            outPut = averageT1*dt/time
+            outPut = averageT1*dt/time  # averaging T1
             print("Average kintetic energy is %f" % outPut)
-            outPut = averageV1*dt/time
+            outPut = averageV1*dt/time  # averaging V1
             print("Average potential energy is %f\n" % outPut)
             compleatedFirstRevolution1 = 1
 
+        # Checking if particle 2 has returned to it's original position, displaying info if it has
         if compleatedFirstRevolution2==0 and inStartingPosition2==0 and (abs(x2-x02) < positionUncertainty) and (abs(y2 - y02) < positionUncertainty):
             print("\nParticle 2:")
-            outPut = time*R01/V01
+            outPut = time*R01/V01   # Changing back to right dimension
             print("Orbital period is %f" % outPut)
-            outPut = averageT2*dt/time
+            outPut = averageT2*dt/time   # averaging T2
             print("Average kintetic energy is %f" % outPut)
-            outPut = averageV2*dt/time
+            outPut = averageV2*dt/time   # averaging V2
             print("Average potential energy is %f\n" % outPut)
             compleatedFirstRevolution2 = 1
 
@@ -198,3 +201,24 @@ f3.close()
 f4.close()
 f5.close()
 f6.close()
+
+###############
+# Making a file containing the orbit of particle 1 calculated by the exact solution if m2 = 0 (or approximate if m2 << m1), otherwise disregard this file
+
+# create file to save simulation data in:
+f = open('tertiarypos1EXACT.txt','w') # notice: the write option 'w' erases previous data in the file
+
+a = -G*M/(2*E01)
+e = ( 1 + 2*E01*L01**2/(m1*G**2*M**2) )**0.5
+def r1EXACT(theta):
+    # ignoring the constant inside cos() as we are interested in plotting a complete orbit
+    return a*(1-e**2)/( 1 + e*cos(theta) )
+
+for Theta in np.nditer(np.arange(0,2*pi,0.1)):
+    x1 = -r1EXACT(Theta)*cos(Theta)
+    y1 = r1EXACT(Theta)*sin(Theta)
+    f.write("%f %f\n" % (x1,y1))    # writing to file
+
+# closing file
+f.close
+
