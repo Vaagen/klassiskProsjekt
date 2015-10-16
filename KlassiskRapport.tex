@@ -90,15 +90,19 @@ For \aa \ unders\o ke n\o yaktignheten av den numeriske metoden ble bevaring av 
 \begin{equation}
 r = \frac{a(1-e^2)}{1+e\cos{(\theta - \theta')}},
 \end{equation}
-hvor $(r,\theta)$ er posisjonen til partikkelen i polarkoordinater. Konstantene $a = -GM/2E$, og $e=(1+2El^2/m_1G^2M^2)^{0.5}$, der $E$ er energien til partikkelen og $l$ er dreieimpulsen om origo. Konstanten $\theta'$ spesifiseres av initialbetingelsene og kan settes lik null om en kun er interessert i hele orbitalen. Videre ble ogs\aa \ virialteoremet for \aa \ unders\o ke n\o yaktigheten av metoden da den gir en sammenheng mellom gjennomsnittlig kinetisk energi $\bar{T}$ og gjennomsnittlig potensiell energi $\bar{V}$\cite{goldstein}
+hvor $(r,\theta)$ er posisjonen til partikkelen i polarkoordinater. Konstantene $a = -GM/2E$, og $e=(1+2El^2/m_1G^2M^2)^{0.5}$, der $E$ er energien til partikkelen og $l$ er dreieimpulsen om origo. Konstanten $\theta'$ spesifiseres av initialbetingelsene og kan settes lik null om en kun er interessert i hele orbitalen. Videre ble ogs\aa \ virialteoremet for \aa \ unders\o ke n\o yaktigheten av metoden da den gir en sammenheng mellom gjennomsnittlig kinetisk energi $\bar{T}$ og gjennomsnittlig potensiell energi $\bar{V}$ for en partikkel i et sentralt gravitasjonsfelt gitt ved\cite{goldstein}
 \begin{equation}
 \frac{\bar{T}}{\bar{V}}=-\frac{1}{2}.
 \label{virial}
 \end{equation}
-Koden som er blitt benyttet for \aa \ l\o se ligning \eqref{n1} of \eqref{n2} er i appendix.
+Koden som er blitt benyttet for \aa \ l\o se ligning \eqref{n1} og \eqref{n2} er i appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Resultat}
-en partikkel, energi, eksakt losning, virialteoremet
+For kun en partikkel gir metoden en godt definert ellipseformet orbital. Figur \ref{1pos} viser resultatet av en simulasjon sammen med tilh\o rende eksakte l\o sning. Ved \aa \ teste for ulike inertialbetingelser ble det funnet at et tidsteg p\aa \ under en promille av beregnet oml\o pstid som regel resulterte i en endring av total energi i st\o rrelsesorden $0.01\%$, mens et tidssteg p\aa \ omtrent $1\%$ av beregnet oml\o pstid resulterte i en endring av energi i st\o rrelsesorden $1\%$. Figur \ref{1energi} viser tilh\o rende total energi som funksjon av tid for systemet vist i figut \ref{1pos}.
+
+eksakt losning,
+
+$\bar{T}$ og \bar{V}
 
 For to vekselvirkende partikler i et sentralt gravitasjonsfelt ble n\o yaktigheten d\aa ligere. Dersom initialbetingelsene f\o rte partiklene i n\ae rheten av hverandre ble det ofte store avvik i total energi og ustabile orbitaler. Dersom initialbetingelsene ble bestemt slik at partiklene ikke kom for n\ae rme hverandre ble imidlertid banene ganske stabile, men med en regelmessig forskyvning av orbitalen il\o pet av simuleringen, figur \ref{2pos} viser et slikt tilfelle. Figur \ref{2energi} viser total energi som funksjon av tid for samme simulering, som p\aa \ det meste avviker $0.20\%$ fra startenergi. Endring av total dreieimpuls for samme simulering var for liten til \aa \ kunne leses av, noe som ogs\aa \ gjaldt andre simuleringer uten store avvik av total energi.
 \begin{figure}[h] 
@@ -112,12 +116,13 @@ For to vekselvirkende partikler i et sentralt gravitasjonsfelt ble n\o yaktighet
 	\begin{center}
 		\includegraphics[width=.55\textwidth,center]{two_particles_energy.pdf} 
 	\end{center}
-		\caption{Total energi for system av to vekselvirkende partikler i et sentralt gravitasjonsfelt.} 
+		\caption{Total energi for system av to vekselvirkende partikler i et sentralt gravitasjonsfelt. Viser tidsforl\o p for system vist i figur \ref{2pos}} 
 		\label{2energi} % Som med ligningen, er dette navnet vi refererer til.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diskusjon}
+Feil st\o rst n\ae rme origo
 
 For to partikler blir metoden un\o yaktig hvis partiklene kommer i n\ae rheten av hverande. Dersom de holder en viss avstand f\aa r partiklene stabile orbitaler som er er svakt forskj\o vet, men selv i dette tilfellet blir total energi endret i intervallene der de er n\ae rmest. Dette kan sees i figur \ref{2energi}, der avvikene i total energi skjer i de omr\a dene der banen til partikkel 1 overlapper med banen til partikkel 2, se figur \ref{2pos}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

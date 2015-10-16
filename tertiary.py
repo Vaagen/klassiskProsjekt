@@ -5,23 +5,23 @@ from math import *    #this command gives you acces to math functions, such as s
 ########################################
 G = 1               # Gravitational constant
 M = 1               # Central Mass
-m1 = 0.002           # mass of particle 1
-m2 = 0.001         # mass of particle 2
+m1 = 0.01           # mass of particle 1
+m2 = 0.00         # mass of particle 2
 
 x1 = 1              #initial position in x-direction, particle 1
 y1 =0               #initial position in y-direction, particle 1
 vx1 = 0             #initial velocity in x-direction, particle 1
-vy1 = 0.8           #initial velocity in y-direction, particle 1
+vy1 = 0.5           #initial velocity in y-direction, particle 1
 
 x2 = 0              #initial position in x-direction, particle 2
 y2 = 0.7              #initial position in y-direction, particle 2
 vx2 = -0.8           #initial velocity in x-direction, particle 2
 vy2 = 0.0            #initial velocity in y-direction, particle 2
 
-dt = 0.0001          # integration timestep
+dt = 0.001          # integration timestep
 endtime=20        #total simulation time
 
-positionUncertainty = 0.1      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
+positionUncertainty = 0.0001      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
 plotspacing = 1     # How often variables are written to file (in terms of how often they are calculated)
 
 #########################################
@@ -205,8 +205,8 @@ f4.close()
 # create file to save simulation data in:
 f = open('tertiarypos1EXACT.txt','w') # notice: the write option 'w' erases previous data in the file
 
-a = -G*M/(2.0*E01)
-e = ( 1.0 + 2.0*E01*L01**2.0/(m1*G**2.0*M**2.0) )**0.5
+a = -G*M*m1/(2.0*E01)
+e = ( 1.0 + 2.0*E01*L01**2.0/(m1**3*G**2.0*M**2.0) )**0.5
 
 def r1EXACT(theta):
     # ignoring the constant inside cos() as we are interested in plotting a complete orbit
@@ -215,8 +215,8 @@ def r1EXACT(theta):
 #for Theta in np.nditer(np.arange(0.0,2.0*pi,0.01)):
 Theta = 0
 while Theta < 2*pi:
-    Theta = Theta + pi/180
-    x1 = r1EXACT(Theta)*cos(Theta)
+    Theta = Theta + 0.3
+    x1 = -r1EXACT(Theta)*cos(Theta)
     y1 = r1EXACT(Theta)*sin(Theta)
     f.write("%f %f\n" % (x1,y1))    # writing to file
 
