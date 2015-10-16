@@ -5,24 +5,25 @@ from math import *    #this command gives you acces to math functions, such as s
 ########################################
 G = 1               # Gravitational constant
 M = 1               # Central Mass
-m1 = 0.1           # mass of particle 1
-m2 = 0.0         # mass of particle 2
+m1 = 0.002           # mass of particle 1
+m2 = 0.001         # mass of particle 2
 
 x1 = 1              #initial position in x-direction, particle 1
 y1 =0               #initial position in y-direction, particle 1
 vx1 = 0             #initial velocity in x-direction, particle 1
-vy1 = 1           #initial velocity in y-direction, particle 1
+vy1 = 0.8           #initial velocity in y-direction, particle 1
 
 x2 = 0              #initial position in x-direction, particle 2
-y2 = 1              #initial position in y-direction, particle 2
-vx2 = 3           #initial velocity in x-direction, particle 2
-vy2 = 0            #initial velocity in y-direction, particle 2
+y2 = 0.7              #initial position in y-direction, particle 2
+vx2 = -0.8           #initial velocity in x-direction, particle 2
+vy2 = 0.0            #initial velocity in y-direction, particle 2
 
-dt = 0.001          # integration timestep
-endtime=2        #total simulation time
+dt = 0.0001          # integration timestep
+endtime=20        #total simulation time
 
 positionUncertainty = 0.1      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
 plotspacing = 1     # How often variables are written to file (in terms of how often they are calculated)
+
 #########################################
 # Changing to dimensionless variables, using starting position and speed of particle 1 as referance
 
@@ -65,10 +66,8 @@ compleatedFirstRevolution2 = 0
 # create files to save simulation data in:
 f = open('tertiarypos1.txt','w') # notice: the write option 'w' erases previous data in the file
 f2 = open('tertiarypos2.txt','w')
-f3 = open('tertiaryenergy1.txt','w')
-f4 = open('tertiaryenergy2.txt','w')
-f5 = open('tertiaryangularmomentum1.txt','w')
-f6 = open('tertiaryangularmomentum2.txt','w')
+f3 = open('tertiaryenergy.txt','w')
+f4 = open('tertiaryangularmomentum.txt','w')
 
 def r1():    # distance between origin and particle 1
     return (x1**2 + y1**2)**0.5
@@ -185,10 +184,10 @@ while (time < endtime):
             
             f.write("%f %f\n" % (x1,y1))    # writing to files
             f2.write("%f %f\n" % (x2,y2))
-            f3.write("%f %f\n" % (time,E1))
-            f4.write("%f %f\n" % (time, E2))
-            f5.write("%f %f\n" % (time, L1))
-            f6.write("%f %f\n" % (time, L2))
+            outPut = E1 + E2
+            f3.write("%f %f\n" % (time,outPut))
+            outPut = L1 + L2
+            f4.write("%f %f\n" % (time, outPut))
 
 
 print("Maximum deviation of energy for a particle relative to start energy is %f" % maxEnergyDeviation)
@@ -199,8 +198,6 @@ f.close()
 f2.close()
 f3.close()
 f4.close()
-f5.close()
-f6.close()
 
 ###############
 # Making a file containing the orbit of particle 1 calculated by the exact solution if m2 = 0 (or approximate if m2 << m1), otherwise disregard this file
@@ -210,10 +207,7 @@ f = open('tertiarypos1EXACT.txt','w') # notice: the write option 'w' erases prev
 
 a = -G*M/(2.0*E01)
 e = ( 1.0 + 2.0*E01*L01**2.0/(m1*G**2.0*M**2.0) )**0.5
-print a
-print e
-print E01
-print L01
+
 def r1EXACT(theta):
     # ignoring the constant inside cos() as we are interested in plotting a complete orbit
     return a*(1.0-e**2.0)/( 1.0 + e*cos(theta) )
@@ -226,7 +220,6 @@ while Theta < 2*pi:
     y1 = r1EXACT(Theta)*sin(Theta)
     f.write("%f %f\n" % (x1,y1))    # writing to file
 
-print a*(1-e**2)
 
 # closing file
 f.close

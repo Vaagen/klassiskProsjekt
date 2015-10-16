@@ -11,7 +11,7 @@
  	\sisetup{separate-uncertainty = true}   	% Pluss-minus-form på usikkerhet (i steden for parentes). 
 \usepackage{booktabs}                     		% For å få tilgang til finere linjer (til bruk i tabeller og slikt).
 \usepackage[font=small,labelfont=bf]{caption}		% For justering av figurtekst og tabelltekst.
-\usepackage{comment}                            % for å kunne kommentere i bolker (med \begin{comment} og \end{comment}
+\usepackage{comment}                            % for å kunne kommentere i bolker (med \begin{comment} og \end{comment})
 \usepackage[export]{adjustbox}            % for å kunne plassere figurer bedre, høyre venstre justering
 \usepackage[below]{placeins}                      %tillatter bruk av \FloatBarrier ([above], [below])
 \usepackage{pdfpages}
@@ -37,9 +37,9 @@
 \begin{document}
 \begin{frontmatter}
 \title{}
-\author[fysikk]{H\aa kon Task{\'{e}}n\ }
+\author[fysikk]{H\aa kon Task{\'{e}}n}
 \author[fysikk]{Paul Thrane}
-\address[fysikk]{Institutt for fysikk, Norges Teknisk-Naturvitenskapelige Universitet, N-7491 Trondheim, Norway.}
+%\address[fysikk]{Institutt for fysikk, Norges Teknisk-Naturvitenskapelige Universitet, N-7491 Trondheim, Norway.}
 \begin{abstract}
 
 
@@ -95,20 +95,31 @@ hvor $(r,\theta)$ er posisjonen til partikkelen i polarkoordinater. Konstantene 
 \frac{\bar{T}}{\bar{V}}=-\frac{1}{2}.
 \label{virial}
 \end{equation}
+Koden som er blitt benyttet for \aa \ l\o se ligning \eqref{n1} of \eqref{n2} er i appendix.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Resultat}
+en partikkel, energi, eksakt losning, virialteoremet
 
-%\begin{figure}[h] 
-%	\begin{center}
-%		\includegraphics[width=.55\textwidth,center]{} 
-%	\end{center}
-%		\caption{} 
-%		\label{} % Som med ligningen, er dette navnet vi refererer til.
-%\end{figure}
+For to vekselvirkende partikler i et sentralt gravitasjonsfelt ble n\o yaktigheten d\aa ligere. Dersom initialbetingelsene f\o rte partiklene i n\ae rheten av hverandre ble det ofte store avvik i total energi og ustabile orbitaler. Dersom initialbetingelsene ble bestemt slik at partiklene ikke kom for n\ae rme hverandre ble imidlertid banene ganske stabile, men med en regelmessig forskyvning av orbitalen il\o pet av simuleringen, figur \ref{2pos} viser et slikt tilfelle. Figur \ref{2energi} viser total energi som funksjon av tid for samme simulering, som p\aa \ det meste avviker $0.20\%$ fra startenergi. Endring av total dreieimpuls for samme simulering var for liten til \aa \ kunne leses av, noe som ogs\aa \ gjaldt andre simuleringer uten store avvik av total energi.
+\begin{figure}[h] 
+	\begin{center}
+		\includegraphics[width=.55\textwidth,center]{two_particles_position.pdf} 
+	\end{center}
+		\caption{Bevegelse for to vekselvirkende partikler i et sentralt gravitasjonsfelt. Partikkel 1 g\aa r mot klokken med oml\o pstid 3,8, partikkel 2 g\aa r mot klokken med oml\o pstid 1,8.} 
+		\label{2pos} % Som med ligningen, er dette navnet vi refererer til.
+\end{figure}
+\begin{figure}[h] 
+	\begin{center}
+		\includegraphics[width=.55\textwidth,center]{two_particles_energy.pdf} 
+	\end{center}
+		\caption{Total energi for system av to vekselvirkende partikler i et sentralt gravitasjonsfelt.} 
+		\label{2energi} % Som med ligningen, er dette navnet vi refererer til.
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diskusjon}
 
+For to partikler blir metoden un\o yaktig hvis partiklene kommer i n\ae rheten av hverande. Dersom de holder en viss avstand f\aa r partiklene stabile orbitaler som er er svakt forskj\o vet, men selv i dette tilfellet blir total energi endret i intervallene der de er n\ae rmest. Dette kan sees i figur \ref{2energi}, der avvikene i total energi skjer i de omr\a dene der banen til partikkel 1 overlapper med banen til partikkel 2, se figur \ref{2pos}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Konklusjon}
 
