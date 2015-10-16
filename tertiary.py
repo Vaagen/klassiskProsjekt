@@ -4,24 +4,24 @@ from math import *    #this command gives you acces to math functions, such as s
 # If you want to only analyze orbit of a single particle, set m2 = 0, and disregard files giving position, energy and angular momentum for particle 2.
 ########################################
 G = 1               # Gravitational constant
-M = 1               # Central Mass
+M = 0               # Central Mass
 m1 = 0.01           # mass of particle 1
-m2 = 0.00         # mass of particle 2
+m2 = 0.01         # mass of particle 2
 
 x1 = 1              #initial position in x-direction, particle 1
 y1 =0               #initial position in y-direction, particle 1
 vx1 = 0             #initial velocity in x-direction, particle 1
-vy1 = 0.5           #initial velocity in y-direction, particle 1
+vy1 = 0.1           #initial velocity in y-direction, particle 1
 
 x2 = 0              #initial position in x-direction, particle 2
 y2 = 0.7              #initial position in y-direction, particle 2
-vx2 = -0.8           #initial velocity in x-direction, particle 2
+vx2 = -0.1           #initial velocity in x-direction, particle 2
 vy2 = 0.0            #initial velocity in y-direction, particle 2
 
 dt = 0.001          # integration timestep
 endtime=20        #total simulation time
 
-positionUncertainty = 0.0001      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
+positionUncertainty = 0.00001      # Used to determine if the particle has returned to it's initial position, may be changed for accuracy, notice that it is uncertainty in position after change to dimensionless variables, where particle 1 will have distance 1 to the origin
 plotspacing = 1     # How often variables are written to file (in terms of how often they are calculated)
 
 #########################################
